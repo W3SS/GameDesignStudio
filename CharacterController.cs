@@ -7,6 +7,7 @@ public class CharacterController : MonoBehaviour {
 	public float forwardVel = 12;
 	public float rotateVel = 100;
 	public int speedChange = 2;
+	public int peoplePicked;
 
 	Quaternion targetRotation;
 	Rigidbody rBody;
@@ -14,7 +15,7 @@ public class CharacterController : MonoBehaviour {
 	bool shiftSpeed = false;
 
 	void setGravity(){
-		Physics.gravity = new Vector3(0, -100.0F, 0);
+		Physics.gravity = new Vector3(0, -1000.0F, 0);
 	}
 
 	public Quaternion TargetRotation
@@ -24,6 +25,7 @@ public class CharacterController : MonoBehaviour {
 
 	void Start()
 	{
+		peoplePicked = 0;
 		setGravity ();
 		targetRotation = transform.rotation;
 		if (GetComponent<Rigidbody> ())
@@ -79,5 +81,7 @@ public class CharacterController : MonoBehaviour {
 		}
 		transform.rotation = targetRotation;
 	}
+
+
 }
 

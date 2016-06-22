@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour {
 
 	Vector3 destination = Vector3.zero;
 	CharacterController charController;
-	float rotateVel = 0;
+	//float rotateVel = 0;
 
 	void  Start()
 	{

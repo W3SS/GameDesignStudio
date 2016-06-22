@@ -3,8 +3,9 @@ using System.Collections;
 
 public class EnemyMove : MonoBehaviour {
 
-	public Transform mainPlayer = GameObject.Find ("Main1").transform;
+	public Transform mainPlayer;
 	public float MoveSpeed = 4;
+	public float WalkSpeed = 1;
 	public float MaxDist = 200;
 	public float MinDist = 10;
 
@@ -18,7 +19,11 @@ public class EnemyMove : MonoBehaviour {
 
 	public GameObject shot;
 	public Transform shotSpawn;
+	bool detectPlayer;
 
+	void Awake(){
+		mainPlayer = GameObject.Find ("MyCar").transform;
+	}
 
 	void Start () {
 		//mainPlayer = GameObject.Find ("Main1").transform;
@@ -26,30 +31,29 @@ public class EnemyMove : MonoBehaviour {
 	
 
 	void Update () {
-		transform.LookAt (mainPlayer);
-
-		if (Vector3.Distance (transform.position, mainPlayer.position) >= MinDist) {
+		
+		detectPlayer =(Vector3.Distance (transform.position, mainPlayer.position) <= MaxDist);
+		if (detectPlayer) {
+			transform.LookAt (mainPlayer);
 			transform.position += transform.forward * MoveSpeed * Time.deltaTime;
-			if (Vector3.Distance (transform.position, mainPlayer.position) <= MaxDist) {
-				//Gameobject bullet = 
-
-				//as GameObject;
-			}
-		}
+		} 
 	}
+
 	void FixedUpdate(){
 		if (Time.time >= nextTime) {
-			EnemyJump ();
-			nextTime += interval;
+			if (!detectPlayer) {
+				transform.Rotate (0, Random.Range (0, 360), 0);
+				
+			
+				nextTime += interval;
+			}
+			transform.position += transform.forward * WalkSpeed * Time.deltaTime;
 		}
 		if (Time.time >= nextTimeBullet) {
-			Instantiate (shot, shotSpawn.position, shotSpawn.rotation) ;
+			Instantiate (shot, shotSpawn.position, shotSpawn.rotation);
 			nextTimeBullet += intervalBullet;
 		}
-		//InvokeRepeating("EnemyJump", 0, 1.0F);
+
 	}
-	void EnemyJump(){
-		rBody = GetComponent<Rigidbody> ();
-		rBody.AddForce(Vector3.up *JumpSpeed);
-	}
+		
 }
